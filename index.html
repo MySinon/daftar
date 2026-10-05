@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Daftar akun Warung Sinon — Topup game murah & cepat." />
+  <title>Daftar Akun - Warung Sinon (Beta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6a0dad;
+      --primary-dark: #5a00a1;
+      --primary-light: #8e44ad;
+      --primary-soft: #f1effd;
+      --primary-soft-2: #e3dbff;
+      --success: #22c55e;
+      --success-soft: #dcfce7;
+      --danger: #ef4444;
+      --warn: #f59e0b;
+      --wa: #25d366;
+      --wa-dark: #128c7e;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --bg: #f5f3ff;
+    }
+
+    * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 0% 0%, #ede9fe 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, #ddd6fe 0%, transparent 50%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-wrap {
+      width: 100%;
+      max-width: 460px;
+      animation: fadeUp 0.5s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* BETA BANNER */
+    .beta-banner {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 1px solid #fbbf24;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      color: #78350f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
+    }
+    .beta-banner .badge {
+      background: #f59e0b;
+      color: white;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    /* BRAND */
+    .brand { text-align: center; margin-bottom: 22px; }
+    .brand-logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.1rem;
+      box-shadow: 0 12px 32px rgba(106, 13, 173, 0.3);
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .brand-logo::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      z-index: -1;
+      opacity: 0.3;
+      filter: blur(8px);
+    }
+    .brand-title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .brand-sub {
+      margin: 5px 0 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* CARD */
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 30px 26px;
+      box-shadow: 0 16px 50px rgba(106, 13, 173, 0.1);
+      border: 1px solid #f0eaff;
+    }
+
+    .card-title {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .card-desc {
+      margin: 0 0 20px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* FORM */
+    .form-group { margin-bottom: 14px; }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .label-hint {
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+    }
+
+    .input-wrap { position: relative; }
+    .input-wrap .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      pointer-events: none;
+      z-index: 1;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 13px 14px 13px 44px;
+      border-radius: 12px;
+      border: 2px solid #eef0f4;
+      background: #fafbfd;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: all 0.2s ease;
+      outline: none;
+      letter-spacing: 0.2px;
+    }
+    input:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.1);
+    }
+    input::placeholder {
+      color: #b8bfcc;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+    input.input-error { border-color: var(--danger); background: #fff5f5; }
+
+    /* === EMAIL FIELD dengan SUFFIX LOCK === */
+    .email-group {
+      display: flex;
+      align-items: stretch;
+      border-radius: 12px;
+      border: 2px solid #eef0f4;
+      background: #fafbfd;
+      transition: all 0.2s ease;
+      overflow: hidden;
+      position: relative;
+    }
+    .email-group:focus-within {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.1);
+    }
+    .email-group .email-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .email-group input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      padding: 13px 4px 13px 44px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+      letter-spacing: 0.2px;
+      font-family: inherit;
+    }
+    .email-group input::placeholder {
+      color: #b8bfcc;
+      font-weight: 500;
+    }
+    .email-group .email-suffix {
+      display: flex;
+      align-items: center;
+      padding: 0 14px 0 10px;
+      background: linear-gradient(135deg, var(--primary-soft) 0%, var(--primary-soft-2) 100%);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.2px;
+      border-left: 1px solid #eef0f4;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .email-group.input-error {
+      border-color: var(--danger);
+      background: #fff5f5;
+    }
+
+    /* Email preview */
+    .email-preview {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.4;
+      min-height: 18px;
+    }
+    .email-preview b {
+      color: var(--primary);
+      font-family: 'Consolas', monospace;
+      background: var(--primary-soft);
+      padding: 1px 6px;
+      border-radius: 4px;
+      word-break: break-all;
+    }
+
+    .toggle-pw {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 4px;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .toggle-pw:hover { color: var(--primary); }
+
+    .pw-strength {
+      margin-top: 6px;
+      display: flex;
+      gap: 4px;
+      height: 4px;
+    }
+    .pw-strength .bar {
+      flex: 1;
+      background: #eef0f4;
+      border-radius: 2px;
+      transition: background 0.3s;
+    }
+    .pw-strength .bar.weak   { background: var(--danger); }
+    .pw-strength .bar.medium { background: var(--warn); }
+    .pw-strength .bar.strong { background: var(--success); }
+    .pw-strength-text {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .field-error {
+      font-size: 0.72rem;
+      color: var(--danger);
+      margin-top: 4px;
+      display: none;
+    }
+    .field-error.show { display: block; }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 4px 0 16px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .checkbox-wrap input {
+      width: auto;
+      margin-top: 3px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .checkbox-wrap a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .checkbox-wrap a:hover { text-decoration: underline; }
+
+    /* BUTTONS */
+    .btn {
+      width: 100%;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      letter-spacing: 0.2px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(106, 13, 173, 0.25);
+      text-decoration: none;
+    }
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(106, 13, 173, 0.35);
+    }
+    .btn:active:not(:disabled) { transform: translateY(0); }
+    .btn:disabled {
+      background: #cbd0d8;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+      opacity: 0.8;
+    }
+
+    .btn-wa {
+      background: linear-gradient(135deg, var(--wa) 0%, var(--wa-dark) 100%);
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+      font-size: 1rem;
+    }
+    .btn-wa:hover:not(:disabled) {
+      box-shadow: 0 8px 22px rgba(37, 211, 102, 0.45);
+    }
+
+    .btn-outline {
+      background: #f8fafc;
+      color: var(--text);
+      box-shadow: none;
+      border: 2px solid var(--border);
+    }
+    .btn-outline:hover:not(:disabled) {
+      background: #f1f5f9;
+      border-color: #cbd0d8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .auth-footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 18px;
+    }
+    .auth-footer a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    /* SUCCESS */
+    .success-screen { display: none; }
+    .success-screen.show { display: block; }
+    .form-screen.hide { display: none; }
+
+    .success-icon {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--success-soft) 0%, #bbf7d0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.7rem;
+      margin: 0 auto 18px;
+      animation: popIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .success-icon::after {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid var(--success);
+      opacity: 0.3;
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.05); opacity: 0.1; }
+    }
+
+    .success-title {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+    }
+    .success-desc {
+      margin: 0 0 22px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .info-steps {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    .info-steps h4 {
+      margin: 0 0 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .info-step {
+      display: flex;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .info-step:last-child { margin-bottom: 0; }
+    .info-step .num-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .info-step b { color: var(--text); }
+
+    .mini-warn {
+      font-size: 0.72rem;
+      color: var(--warn);
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+    .mini-warn b { color: #d68910; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--success);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 9999;
+      max-width: 340px;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.error { background: var(--danger); }
+    .toast.info { background: #3498db; }
+
+    @media (max-width: 500px) {
+      body { padding: 12px 12px 30px; align-items: flex-start; }
+      .card { padding: 22px 18px; border-radius: 18px; }
+      .brand-title { font-size: 1.3rem; }
+      .brand-logo { width: 66px; height: 66px; font-size: 1.85rem; }
+      .email-group .email-suffix { font-size: 0.82rem; padding: 0 10px 0 8px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-wrap">
+
+    <!-- BETA BANNER -->
+    <div class="beta-banner">
+      <span class="badge">BETA</span>
+      <span>Versi <b>BETA</b> — setelah isi form, kamu akan diarahkan ke WA admin untuk aktivasi akun.</span>
+    </div>
+
+    <!-- BRAND -->
+    <div class="brand">
+      <div class="brand-logo">🛒</div>
+      <h1 class="brand-title">Warung Sinon</h1>
+      <p class="brand-sub">Topup game murah, cepat, otomatis</p>
+    </div>
+
+    <!-- CARD -->
+    <div class="card">
+
+      <!-- FORM SCREEN -->
+      <div class="form-screen" id="formScreen">
+        <h2 class="card-title">Daftar Akun</h2>
+        <p class="card-desc">Isi data di bawah, klik kirim, dan kamu akan langsung diarahkan ke WhatsApp admin untuk aktivasi akun.</p>
+
+        <form id="registerForm" onsubmit="return false;">
+
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" id="regNama" placeholder="Nama kamu" autocomplete="name" maxlength="60" />
+            </div>
+            <div class="field-error" id="errNama">Nama wajib diisi (max 60 karakter)</div>
+          </div>
+
+          <!-- EMAIL DENGAN SUFFIX LOCK -->
+          <div class="form-group">
+            <label>Email <span class="label-hint">— domain otomatis</span></label>
+            <div class="email-group" id="emailGroup">
+              <span class="email-icon">📧</span>
+              <input
+                type="text"
+                id="regUsername"
+                placeholder="username"
+                autocomplete="off"
+                maxlength="30"
+                spellcheck="false"
+                autocapitalize="none"
+              />
+              <span class="email-suffix">@ws.com</span>
+            </div>
+            <div class="email-preview" id="emailPreview"></div>
+            <div class="field-error" id="errUsername">Username hanya boleh huruf kecil, angka, titik, dan underscore</div>
+          </div>
+
+          <div class="form-group">
+            <label>No HP <span class="label-hint">(buat login & konfirmasi WA)</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">📱</span>
+              <input type="text" id="regNoHp" placeholder="6281234567890" inputmode="numeric" autocomplete="tel" maxlength="15" />
+            </div>
+            <div class="field-error" id="errNoHp">Nomor harus diawali 62 (contoh: 628123456789)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Password yang Diinginkan</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="regPassword" placeholder="Min 6 karakter" autocomplete="new-password" maxlength="64" />
+              <button type="button" class="toggle-pw" onclick="togglePassword('regPassword', this)">👁️</button>
+            </div>
+            <div class="pw-strength" id="pwStrength">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
+            <div class="pw-strength-text" id="pwStrengthText">Minimal 6 karakter</div>
+            <div class="field-error" id="errPassword">Password minimal 6 karakter</div>
+          </div>
+
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="regTerms" />
+            <span>Saya setuju dengan <a href="#" onclick="showTnC(); return false;">Syarat & Ketentuan</a> Warung Sinon</span>
+          </label>
+
+          <button type="submit" class="btn btn-wa" id="btnDaftar" onclick="daftar()">
+            <span style="font-size:1.15rem;">💬</span>
+            <span>Kirim ke WA Admin</span>
+          </button>
+
+          <p style="font-size:0.72rem;color:#94a3b8;text-align:center;margin:12px 0 0;line-height:1.5;">
+            Kamu akan diarahkan ke WhatsApp admin dengan pesan otomatis berisi data kamu.
+          </p>
+        </form>
+
+        <div class="divider">atau</div>
+
+        <div class="auth-footer">
+          Sudah punya akun? <a href="https://warungsinon.my.id/">Masuk di sini</a>
+        </div>
+      </div>
+
+      <!-- SUCCESS SCREEN -->
+      <div class="success-screen" id="successScreen">
+        <div class="success-icon">✅</div>
+        <h2 class="success-title">Data Terkirim ke WA</h2>
+        <p class="success-desc">
+          Kamu baru saja diarahkan ke WhatsApp admin. Kalau WA belum terbuka otomatis, klik tombol di bawah.
+        </p>
+
+        <div class="info-steps">
+          <h4>📋 Langkah Selanjutnya</h4>
+          <div class="info-step">
+            <span class="num-badge">1</span>
+            <span>Klik tombol <b>Buka WhatsApp</b> di bawah</span>
+          </div>
+          <div class="info-step">
+            <span class="num-badge">2</span>
+            <span>Pesan sudah otomatis terisi — tinggal <b>kirim</b> (jangan diubah)</span>
+          </div>
+          <div class="info-step">
+            <span class="num-badge">3</span>
+            <span>Tunggu admin buatkan akun, biasanya <b>1-24 jam</b></span>
+          </div>
+          <div class="info-step">
+            <span class="num-badge">4</span>
+            <span>Admin akan kirim info akun ke WA kamu</span>
+          </div>
+        </div>
+
+        <a href="#" class="btn btn-wa" id="btnWa" target="_blank" rel="noopener">
+          <span style="font-size:1.15rem;">💬</span>
+          <span>Buka WhatsApp Admin</span>
+        </a>
+
+        <button class="btn btn-outline" onclick="ulangForm()" style="margin-top:10px;">
+          <span>↺</span>
+          <span>Isi Form Lagi</span>
+        </button>
+
+        <p class="mini-warn">
+          ⚠️ <b>Penting:</b> Jangan hapus atau ubah pesan yang terisi otomatis, karena admin butuh datanya untuk buat akun kamu.
+        </p>
+
+        <div class="divider">atau</div>
+
+        <div class="auth-footer">
+          Sudah punya akun? <a href="https://warungsinon.my.id/">Masuk di sini</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COPYRIGHT -->
+    <p style="text-align:center;font-size:0.72rem;color:#94a3b8;margin-top:18px;line-height:1.6;">
+      © 2026 Warung Sinon · Beta Version<br>
+      Dengan mendaftar, kamu setuju data dikirim ke admin via WhatsApp.
+    </p>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ============================================================
+    // KONFIGURASI
+    // ============================================================
+    const ADMIN_WA = "6283107005927";       // ganti ke nomor WA admin kamu (62xxx)
+    const EMAIL_DOMAIN = "@ws.com";         // domain email yang di-lock
+
+    let lastWaLink = "";
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function toast(msg, tipe = "success") {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.className = "toast show " + (tipe === "error" ? "error" : tipe === "info" ? "info" : "");
+      setTimeout(() => el.classList.remove("show"), 3500);
+    }
+
+    // ============================================================
+    // T&C
+    // ============================================================
+    function showTnC() {
+      alert(
+        "Syarat & Ketentuan Warung Sinon:\n\n" +
+        "1. Akun hanya untuk penggunaan pribadi.\n" +
+        "2. Tidak untuk aktivitas ilegal.\n" +
+        "3. Saldo tidak bisa di-refund setelah dipakai.\n" +
+        "4. Admin berhak menonaktifkan akun yang melanggar.\n" +
+        "5. Data kamu akan dikirim ke admin via WhatsApp untuk keperluan aktivasi akun."
+      );
+    }
+
+    // ============================================================
+    // TOGGLE PASSWORD
+    // ============================================================
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "🙈";
+      } else {
+        input.type = "password";
+        btn.textContent = "👁️";
+      }
+    }
+
+    // ============================================================
+    // EMAIL HELPER
+    // ============================================================
+    // Ambil username bersih (tanpa @, tanpa spasi, lowercase)
+    function getUsername() {
+      return document.getElementById("regUsername").value.trim().toLowerCase();
+    }
+    function getEmail() {
+      const u = getUsername();
+      return u ? u + EMAIL_DOMAIN : "";
+    }
+    // Validasi username untuk format email
+    function isValidUsername(u) {
+      if (!u) return false;
+      if (u.length < 3 || u.length > 30) return false;
+      // Hanya huruf kecil, angka, titik, underscore, strip
+      if (!/^[a-z0-9._-]+$/.test(u)) return false;
+      // Tidak boleh diawali/diakhiri titik, underscore, atau strip
+      if (/^[._-]/.test(u) || /[._-]$/.test(u)) return false;
+      // Tidak boleh ada titik/underscore/strip dobel
+      if (/[._-]{2,}/.test(u)) return false;
+      return true;
+    }
+
+    // Update preview email
+    function updateEmailPreview() {
+      const u = getUsername();
+      const preview = document.getElementById("emailPreview");
+      const group = document.getElementById("emailGroup");
+
+      // Filter input: buang karakter invalid saat user ngetik
+      const rawInput = document.getElementById("regUsername").value;
+      const cleaned = rawInput.toLowerCase().replace(/[^a-z0-9._-]/g, "");
+      if (rawInput !== cleaned) {
+        document.getElementById("regUsername").value = cleaned;
+      }
+
+      if (!u) {
+        preview.innerHTML = '';
+        group.classList.remove("input-error");
+        return;
+      }
+
+      if (!isValidUsername(u)) {
+        preview.innerHTML = '<span style="color:var(--danger);">Username tidak valid</span>';
+        group.classList.add("input-error");
+        return;
+      }
+
+      group.classList.remove("input-error");
+      preview.innerHTML = `Email kamu: <b>${u}${EMAIL_DOMAIN}</b>`;
+    }
+
+    // ============================================================
+    // VALIDASI
+    // ============================================================
+    function showError(fieldId, show) {
+      const el = document.getElementById(fieldId);
+      if (el) el.classList.toggle("show", !!show);
+    }
+    function setInputError(inputId, isError) {
+      const el = document.getElementById(inputId);
+      if (el) el.classList.toggle("input-error", !!isError);
+    }
+    function isValidPhone(phone) {
+      if (!phone) return false;
+      return /^62\d{8,14}$/.test(phone);
+    }
+    function pwScore(pw) {
+      if (!pw || pw.length < 6) return 0;
+      let score = 0;
+      if (pw.length >= 8) score++;
+      if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+      if (/\d/.test(pw)) score++;
+      if (/[!@#$%^&*(),.?":{}|<>_\-]/.test(pw)) score++;
+      if (score <= 1) return 1;
+      if (score === 2) return 2;
+      return 3;
+    }
+    function updatePwStrength() {
+      const pw = document.getElementById("regPassword").value;
+      const bars = document.querySelectorAll("#pwStrength .bar");
+      const text = document.getElementById("pwStrengthText");
+      const score = pwScore(pw);
+      bars.forEach(b => b.className = "bar");
+      if (score === 1) {
+        bars[0].classList.add("weak");
+        text.textContent = "Lemah — tambahkan huruf besar, angka, atau simbol";
+        text.style.color = "var(--danger)";
+      } else if (score === 2) {
+        bars[0].classList.add("medium");
+        bars[1].classList.add("medium");
+        text.textContent = "Sedang — tambahkan simbol biar kuat";
+        text.style.color = "var(--warn)";
+      } else if (score === 3) {
+        bars.forEach(b => b.classList.add("strong"));
+        text.textContent = "Kuat 💪";
+        text.style.color = "var(--success)";
+      } else {
+        text.textContent = "Minimal 6 karakter";
+        text.style.color = "var(--text-muted)";
+      }
+    }
+
+    // ============================================================
+    // BUILD PESAN WA
+    // ============================================================
+    function buildWaMessage(data) {
+      const tgl = new Date().toLocaleString("id-ID", {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+
+      return `Halo Admin Warung Sinon 👋
+
+Saya mau daftar akun di website. Mohon dibantu untuk dibuatkan akun ya 🙏
+
+━━━━━━━━━━━━━━━━━━
+📋 *DATA PENDAFTARAN*
+━━━━━━━━━━━━━━━━━━
+👤 Nama     : ${data.nama}
+📧 Email    : ${data.email}
+📱 No HP    : ${data.noHp}
+🔒 Password : ${data.password}
+🕒 Waktu    : ${tgl}
+━━━━━━━━━━━━━━━━━━
+
+Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏`;
+    }
+
+    // ============================================================
+    // DAFTAR → KIRIM KE WA
+    // ============================================================
+    function daftar() {
+      const nama = document.getElementById("regNama").value.trim();
+      const username = getUsername();
+      const email = getEmail();
+      const noHp = document.getElementById("regNoHp").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const terms = document.getElementById("regTerms").checked;
+
+      // Reset errors
+      ["errNama", "errUsername", "errNoHp", "errPassword"].forEach(id => showError(id, false));
+      ["regNama", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
+      document.getElementById("emailGroup").classList.remove("input-error");
+
+      let valid = true;
+      if (!nama || nama.length > 60) { showError("errNama", true); setInputError("regNama", true); valid = false; }
+
+      if (!isValidUsername(username)) {
+        showError("errUsername", true);
+        document.getElementById("emailGroup").classList.add("input-error");
+        valid = false;
+      }
+
+      if (!isValidPhone(noHp)) { showError("errNoHp", true); setInputError("regNoHp", true); valid = false; }
+      if (!password || password.length < 6) { showError("errPassword", true); setInputError("regPassword", true); valid = false; }
+
+      if (!valid) return toast("Periksa kembali form kamu", "error");
+      if (!terms) return toast("Centang Syarat & Ketentuan dulu", "error");
+
+      // Build WA link
+      const waMsg = buildWaMessage({ nama, email, noHp, password });
+      const waLink = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(waMsg)}`;
+      lastWaLink = waLink;
+
+      const btnWa = document.getElementById("btnWa");
+      btnWa.href = waLink;
+
+      document.getElementById("formScreen").classList.add("hide");
+      document.getElementById("successScreen").classList.add("show");
+      toast("✅ Data siap dikirim!");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Auto-buka WA
+      setTimeout(() => {
+        try { window.open(waLink, "_blank"); } catch (e) {}
+      }, 400);
+    }
+
+    // ============================================================
+    // ULANG FORM
+    // ============================================================
+    function ulangForm() {
+      ["regNama", "regUsername", "regNoHp", "regPassword"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+      });
+      document.getElementById("regTerms").checked = false;
+      ["errNama", "errUsername", "errNoHp", "errPassword"].forEach(id => showError(id, false));
+      document.getElementById("emailGroup").classList.remove("input-error");
+      document.getElementById("emailPreview").innerHTML = "";
+      updatePwStrength();
+
+      document.getElementById("successScreen").classList.remove("show");
+      document.getElementById("formScreen").classList.remove("hide");
+
+      document.getElementById("regNama").focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // ============================================================
+    // LIVE VALIDATION
+    // ============================================================
+    document.getElementById("regPassword").addEventListener("input", updatePwStrength);
+    document.getElementById("regPassword").addEventListener("input", () => {
+      const pw = document.getElementById("regPassword").value;
+      if (pw.length >= 6) { showError("errPassword", false); setInputError("regPassword", false); }
+    });
+    document.getElementById("regNama").addEventListener("input", () => {
+      const v = document.getElementById("regNama").value.trim();
+      if (v) { showError("errNama", false); setInputError("regNama", false); }
+    });
+    document.getElementById("regNoHp").addEventListener("input", () => {
+      const v = document.getElementById("regNoHp").value.trim();
+      if (isValidPhone(v)) { showError("errNoHp", false); setInputError("regNoHp", false); }
+    });
+
+    // Username input — auto-clean + preview
+    const usernameInput = document.getElementById("regUsername");
+    usernameInput.addEventListener("input", () => {
+      updateEmailPreview();
+      const u = getUsername();
+      if (isValidUsername(u)) showError("errUsername", false);
+    });
+    // Cegah spasi di username
+    usernameInput.addEventListener("keydown", (e) => {
+      if (e.key === " ") e.preventDefault();
+    });
+
+    document.getElementById("registerForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      daftar();
+    });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    window.addEventListener("load", () => {
+      document.getElementById("regNama").focus();
+    });
+  </script>
+
+</body>
+</html>
