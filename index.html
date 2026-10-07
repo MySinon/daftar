@@ -169,6 +169,7 @@
       z-index: 1;
     }
     input[type="text"],
+    input[type="email"],
     input[type="password"] {
       width: 100%;
       padding: 13px 14px 13px 44px;
@@ -181,6 +182,7 @@
       transition: all 0.2s ease;
       outline: none;
       letter-spacing: 0.2px;
+      font-family: inherit;
     }
     input:focus {
       border-color: var(--primary);
@@ -194,68 +196,7 @@
     }
     input.input-error { border-color: var(--danger); background: #fff5f5; }
 
-    /* === EMAIL FIELD dengan SUFFIX LOCK === */
-    .email-group {
-      display: flex;
-      align-items: stretch;
-      border-radius: 12px;
-      border: 2px solid #eef0f4;
-      background: #fafbfd;
-      transition: all 0.2s ease;
-      overflow: hidden;
-      position: relative;
-    }
-    .email-group:focus-within {
-      border-color: var(--primary);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.1);
-    }
-    .email-group .email-icon {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      pointer-events: none;
-      z-index: 1;
-    }
-    .email-group input {
-      flex: 1;
-      min-width: 0;
-      border: none;
-      background: transparent;
-      padding: 13px 4px 13px 44px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-      outline: none;
-      letter-spacing: 0.2px;
-      font-family: inherit;
-    }
-    .email-group input::placeholder {
-      color: #b8bfcc;
-      font-weight: 500;
-    }
-    .email-group .email-suffix {
-      display: flex;
-      align-items: center;
-      padding: 0 14px 0 10px;
-      background: linear-gradient(135deg, var(--primary-soft) 0%, var(--primary-soft-2) 100%);
-      color: var(--primary);
-      font-weight: 800;
-      font-size: 0.9rem;
-      letter-spacing: 0.2px;
-      border-left: 1px solid #eef0f4;
-      user-select: none;
-      flex-shrink: 0;
-    }
-    .email-group.input-error {
-      border-color: var(--danger);
-      background: #fff5f5;
-    }
-
-    /* Email preview */
+    /* Email preview / hint */
     .email-preview {
       margin-top: 8px;
       font-size: 0.78rem;
@@ -528,6 +469,45 @@
     }
     .mini-warn b { color: #d68910; }
 
+    /* CS INFO BOX (baru) */
+    .cs-box {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 1px solid #6ee7b7;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .cs-box .cs-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .cs-box .cs-content {
+      flex: 1;
+      font-size: 0.8rem;
+      color: #065f46;
+      line-height: 1.6;
+    }
+    .cs-box .cs-content b {
+      color: #047857;
+      font-size: 0.95rem;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 0.5px;
+    }
+    .cs-box .cs-content a {
+      color: #047857;
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px dotted #047857;
+    }
+    .cs-box .cs-content a:hover {
+      color: #065f46;
+      border-bottom-style: solid;
+    }
+
     /* TOAST */
     .toast {
       position: fixed;
@@ -549,12 +529,38 @@
     .toast.error { background: var(--danger); }
     .toast.info { background: #3498db; }
 
+    /* FOOTER */
+    .page-footer {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #94a3b8;
+      margin-top: 18px;
+      line-height: 1.7;
+    }
+    .page-footer .cs-footer {
+      display: inline-block;
+      background: #ecfdf5;
+      color: #047857;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      margin: 8px 0;
+      font-size: 0.75rem;
+      border: 1px solid #6ee7b7;
+    }
+    .page-footer .cs-footer a {
+      color: #047857;
+      text-decoration: none;
+    }
+    .page-footer .cs-footer a:hover { text-decoration: underline; }
+
     @media (max-width: 500px) {
       body { padding: 12px 12px 30px; align-items: flex-start; }
       .card { padding: 22px 18px; border-radius: 18px; }
       .brand-title { font-size: 1.3rem; }
       .brand-logo { width: 66px; height: 66px; font-size: 1.85rem; }
-      .email-group .email-suffix { font-size: 0.82rem; padding: 0 10px 0 8px; }
+      .cs-box { padding: 12px 14px; }
+      .cs-box .cs-icon { font-size: 1.2rem; }
     }
   </style>
 </head>
@@ -595,24 +601,23 @@
             <div class="field-error" id="errNama">Nama wajib diisi (max 60 karakter)</div>
           </div>
 
-          <!-- EMAIL DENGAN SUFFIX LOCK -->
+          <!-- EMAIL BEBAS -->
           <div class="form-group">
-            <label>Email <span class="label-hint">— domain otomatis</span></label>
-            <div class="email-group" id="emailGroup">
-              <span class="email-icon">📧</span>
+            <label>Email <span class="label-hint">— disarankan pakai Gmail</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">📧</span>
               <input
-                type="text"
-                id="regUsername"
-                placeholder="username"
-                autocomplete="off"
-                maxlength="30"
+                type="email"
+                id="regEmail"
+                placeholder="emailkamu@gmail.com"
+                autocomplete="email"
+                maxlength="80"
                 spellcheck="false"
                 autocapitalize="none"
               />
-              <span class="email-suffix">@ws.com</span>
             </div>
             <div class="email-preview" id="emailPreview"></div>
-            <div class="field-error" id="errUsername">Username hanya boleh huruf kecil, angka, titik, dan underscore</div>
+            <div class="field-error" id="errEmail">Format email tidak valid (contoh: nama@gmail.com)</div>
           </div>
 
           <div class="form-group">
@@ -653,6 +658,16 @@
           <p style="font-size:0.72rem;color:#94a3b8;text-align:center;margin:12px 0 0;line-height:1.5;">
             Kamu akan diarahkan ke WhatsApp admin dengan pesan otomatis berisi data kamu.
           </p>
+
+          <!-- CS INFO BOX -->
+          <div class="cs-box">
+            <div class="cs-icon">💬</div>
+            <div class="cs-content">
+              Butuh refund atau ada pertanyaan seputar Warung Sinon?<br>
+              Hubungi CS kami di <b>083107005927</b> —
+              <a href="https://wa.me/6283107005927?text=Halo%20CS%20Warung%20Sinon%2C%20saya%20mau%20tanya..." target="_blank" rel="noopener">Chat via WhatsApp →</a>
+            </div>
+          </div>
         </form>
 
         <div class="divider">atau</div>
@@ -713,11 +728,15 @@
 
     </div>
 
-    <!-- COPYRIGHT -->
-    <p style="text-align:center;font-size:0.72rem;color:#94a3b8;margin-top:18px;line-height:1.6;">
+    <!-- FOOTER -->
+    <div class="page-footer">
       © 2026 Warung Sinon · Beta Version<br>
       Dengan mendaftar, kamu setuju data dikirim ke admin via WhatsApp.
-    </p>
+      <br>
+      <a href="https://wa.me/6283107005927?text=Halo%20CS%20Warung%20Sinon..." target="_blank" rel="noopener" class="cs-footer">
+        💬 CS: 083107005927 (klik untuk chat)
+      </a>
+    </div>
 
   </div>
 
@@ -727,8 +746,9 @@
     // ============================================================
     // KONFIGURASI
     // ============================================================
-    const ADMIN_WA = "6283107005927";       // ganti ke nomor WA admin kamu (62xxx)
-    const EMAIL_DOMAIN = "@ws.com";         // domain email yang di-lock
+    const ADMIN_WA = "6283107005927";       // nomor WA admin (62xxx)
+    const CS_NUMBER = "083107005927";       // nomor CS display (format lokal)
+    const CS_WA_LINK = "https://wa.me/6283107005927";
 
     let lastWaLink = "";
 
@@ -743,16 +763,23 @@
     }
 
     // ============================================================
-    // T&C
+    // T&C (SYARAT & KETENTUAN + CS)
     // ============================================================
     function showTnC() {
       alert(
-        "Syarat & Ketentuan Warung Sinon:\n\n" +
+        "SYARAT & KETENTUAN — WARUNG SINON\n\n" +
         "1. Akun hanya untuk penggunaan pribadi.\n" +
-        "2. Tidak untuk aktivitas ilegal.\n" +
-        "3. Saldo tidak bisa di-refund setelah dipakai.\n" +
-        "4. Admin berhak menonaktifkan akun yang melanggar.\n" +
-        "5. Data kamu akan dikirim ke admin via WhatsApp untuk keperluan aktivasi akun."
+        "2. Tidak untuk aktivitas ilegal (judi, penipuan, dll).\n" +
+        "3. Saldo tidak bisa di-refund setelah dipakai untuk transaksi.\n" +
+        "4. Admin berhak menonaktifkan akun yang melanggar aturan.\n" +
+        "5. Data kamu akan dikirim ke admin via WhatsApp untuk keperluan aktivasi akun.\n" +
+        "6. Password yang kamu daftarkan saat ini hanya sebagai permintaan — admin akan buatkan akun & kirim ulang via WA.\n\n" +
+        "━━━━━━━━━━━━━━━━━━\n" +
+        "📞 KONTAK CS & REFUND\n" +
+        "━━━━━━━━━━━━━━━━━━\n" +
+        "Untuk refund atau pertanyaan seputar Warung Sinon:\n\n" +
+        "CS WhatsApp: " + CS_NUMBER + "\n\n" +
+        "Balasan CS biasanya dalam 1-24 jam. Terima kasih! 🙏"
       );
     }
 
@@ -772,60 +799,47 @@
     }
 
     // ============================================================
-    // EMAIL HELPER
+    // EMAIL HELPER — BEBAS ISI APAPUN
     // ============================================================
-    // Ambil username bersih (tanpa @, tanpa spasi, lowercase)
-    function getUsername() {
-      return document.getElementById("regUsername").value.trim().toLowerCase();
-    }
     function getEmail() {
-      const u = getUsername();
-      return u ? u + EMAIL_DOMAIN : "";
-    }
-    // Validasi username untuk format email
-    function isValidUsername(u) {
-      if (!u) return false;
-      if (u.length < 3 || u.length > 30) return false;
-      // Hanya huruf kecil, angka, titik, underscore, strip
-      if (!/^[a-z0-9._-]+$/.test(u)) return false;
-      // Tidak boleh diawali/diakhiri titik, underscore, atau strip
-      if (/^[._-]/.test(u) || /[._-]$/.test(u)) return false;
-      // Tidak boleh ada titik/underscore/strip dobel
-      if (/[._-]{2,}/.test(u)) return false;
-      return true;
+      return document.getElementById("regEmail").value.trim().toLowerCase();
     }
 
-    // Update preview email
+    // Validasi email standar
+    function isValidEmail(email) {
+      if (!email) return false;
+      if (email.length > 80) return false;
+      // Regex email umum: huruf@huruf.huruf
+      return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(email);
+    }
+
+    // Update preview email (konfirmasi)
     function updateEmailPreview() {
-      const u = getUsername();
+      const email = getEmail();
       const preview = document.getElementById("emailPreview");
-      const group = document.getElementById("emailGroup");
 
-      // Filter input: buang karakter invalid saat user ngetik
-      const rawInput = document.getElementById("regUsername").value;
-      const cleaned = rawInput.toLowerCase().replace(/[^a-z0-9._-]/g, "");
-      if (rawInput !== cleaned) {
-        document.getElementById("regUsername").value = cleaned;
-      }
-
-      if (!u) {
+      if (!email) {
         preview.innerHTML = '';
-        group.classList.remove("input-error");
         return;
       }
 
-      if (!isValidUsername(u)) {
-        preview.innerHTML = '<span style="color:var(--danger);">Username tidak valid</span>';
-        group.classList.add("input-error");
+      if (!isValidEmail(email)) {
+        preview.innerHTML = '<span style="color:var(--danger);">Format email tidak valid</span>';
         return;
       }
 
-      group.classList.remove("input-error");
-      preview.innerHTML = `Email kamu: <b>${u}${EMAIL_DOMAIN}</b>`;
+      // Deteksi provider (bukan wajib gmail — cuma info)
+      let provider = "email";
+      if (email.endsWith("@gmail.com")) provider = "Gmail";
+      else if (email.endsWith("@yahoo.com") || email.endsWith("@yahoo.co.id")) provider = "Yahoo";
+      else if (email.endsWith("@outlook.com") || email.endsWith("@hotmail.com")) provider = "Outlook";
+      else if (email.endsWith("@icloud.com")) provider = "iCloud";
+
+      preview.innerHTML = `✅ Email valid (${provider}): <b>${email}</b>`;
     }
 
     // ============================================================
-    // VALIDASI
+    // VALIDASI UMUM
     // ============================================================
     function showError(fieldId, show) {
       const el = document.getElementById(fieldId);
@@ -898,7 +912,9 @@ Saya mau daftar akun di website. Mohon dibantu untuk dibuatkan akun ya 🙏
 🕒 Waktu    : ${tgl}
 ━━━━━━━━━━━━━━━━━━
 
-Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏`;
+Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏
+
+_(Butuh refund atau ada pertanyaan lain, hubungi CS: ${CS_NUMBER})_`;
     }
 
     // ============================================================
@@ -906,28 +922,29 @@ Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏`;
     // ============================================================
     function daftar() {
       const nama = document.getElementById("regNama").value.trim();
-      const username = getUsername();
       const email = getEmail();
       const noHp = document.getElementById("regNoHp").value.trim();
       const password = document.getElementById("regPassword").value;
       const terms = document.getElementById("regTerms").checked;
 
       // Reset errors
-      ["errNama", "errUsername", "errNoHp", "errPassword"].forEach(id => showError(id, false));
-      ["regNama", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
-      document.getElementById("emailGroup").classList.remove("input-error");
+      ["errNama", "errEmail", "errNoHp", "errPassword"].forEach(id => showError(id, false));
+      ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
 
       let valid = true;
-      if (!nama || nama.length > 60) { showError("errNama", true); setInputError("regNama", true); valid = false; }
 
-      if (!isValidUsername(username)) {
-        showError("errUsername", true);
-        document.getElementById("emailGroup").classList.add("input-error");
-        valid = false;
+      if (!nama || nama.length > 60) {
+        showError("errNama", true); setInputError("regNama", true); valid = false;
       }
-
-      if (!isValidPhone(noHp)) { showError("errNoHp", true); setInputError("regNoHp", true); valid = false; }
-      if (!password || password.length < 6) { showError("errPassword", true); setInputError("regPassword", true); valid = false; }
+      if (!isValidEmail(email)) {
+        showError("errEmail", true); setInputError("regEmail", true); valid = false;
+      }
+      if (!isValidPhone(noHp)) {
+        showError("errNoHp", true); setInputError("regNoHp", true); valid = false;
+      }
+      if (!password || password.length < 6) {
+        showError("errPassword", true); setInputError("regPassword", true); valid = false;
+      }
 
       if (!valid) return toast("Periksa kembali form kamu", "error");
       if (!terms) return toast("Centang Syarat & Ketentuan dulu", "error");
@@ -956,13 +973,13 @@ Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏`;
     // ULANG FORM
     // ============================================================
     function ulangForm() {
-      ["regNama", "regUsername", "regNoHp", "regPassword"].forEach(id => {
+      ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = "";
       });
       document.getElementById("regTerms").checked = false;
-      ["errNama", "errUsername", "errNoHp", "errPassword"].forEach(id => showError(id, false));
-      document.getElementById("emailGroup").classList.remove("input-error");
+      ["errNama", "errEmail", "errNoHp", "errPassword"].forEach(id => showError(id, false));
+      ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
       document.getElementById("emailPreview").innerHTML = "";
       updatePwStrength();
 
@@ -981,24 +998,30 @@ Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏`;
       const pw = document.getElementById("regPassword").value;
       if (pw.length >= 6) { showError("errPassword", false); setInputError("regPassword", false); }
     });
+
     document.getElementById("regNama").addEventListener("input", () => {
       const v = document.getElementById("regNama").value.trim();
       if (v) { showError("errNama", false); setInputError("regNama", false); }
     });
+
     document.getElementById("regNoHp").addEventListener("input", () => {
       const v = document.getElementById("regNoHp").value.trim();
       if (isValidPhone(v)) { showError("errNoHp", false); setInputError("regNoHp", false); }
     });
 
-    // Username input — auto-clean + preview
-    const usernameInput = document.getElementById("regUsername");
-    usernameInput.addEventListener("input", () => {
+    // Email input — auto-clean + preview
+    const emailInput = document.getElementById("regEmail");
+    emailInput.addEventListener("input", () => {
+      // Buang spasi (kebanyakan orang gak sengaja ketik spasi)
+      const raw = emailInput.value;
+      if (raw.includes(" ")) emailInput.value = raw.replace(/\s/g, "");
       updateEmailPreview();
-      const u = getUsername();
-      if (isValidUsername(u)) showError("errUsername", false);
+      const email = getEmail();
+      if (isValidEmail(email)) { showError("errEmail", false); setInputError("regEmail", false); }
     });
-    // Cegah spasi di username
-    usernameInput.addEventListener("keydown", (e) => {
+
+    // Cegah spasi di email
+    emailInput.addEventListener("keydown", (e) => {
       if (e.key === " ") e.preventDefault();
     });
 
