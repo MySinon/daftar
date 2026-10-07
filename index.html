@@ -469,7 +469,7 @@
     }
     .mini-warn b { color: #d68910; }
 
-    /* CS INFO BOX (baru) */
+    /* CS INFO BOX */
     .cs-box {
       background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
       border: 1px solid #6ee7b7;
@@ -512,20 +512,22 @@
     .toast {
       position: fixed;
       top: 20px;
-      right: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-200%);
       background: var(--success);
       color: white;
-      padding: 12px 20px;
-      border-radius: 10px;
+      padding: 14px 24px;
+      border-radius: 12px;
       font-weight: 600;
-      font-size: 0.85rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-      transform: translateX(400px);
-      transition: transform 0.3s ease;
+      font-size: 0.88rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
       z-index: 9999;
-      max-width: 340px;
+      max-width: 90%;
+      text-align: center;
+      line-height: 1.5;
     }
-    .toast.show { transform: translateX(0); }
+    .toast.show { transform: translateX(-50%) translateY(0); }
     .toast.error { background: var(--danger); }
     .toast.info { background: #3498db; }
 
@@ -572,7 +574,7 @@
     <!-- BETA BANNER -->
     <div class="beta-banner">
       <span class="badge">BETA</span>
-      <span>Versi <b>BETA</b> — setelah isi form, kamu akan diarahkan ke WA admin untuk aktivasi akun.</span>
+      <span>Versi <b>BETA</b> — setelah isi form, kamu akan diarahkan ke WA <b>Arisu</b> untuk aktivasi akun.</span>
     </div>
 
     <!-- BRAND -->
@@ -588,7 +590,7 @@
       <!-- FORM SCREEN -->
       <div class="form-screen" id="formScreen">
         <h2 class="card-title">Daftar Akun</h2>
-        <p class="card-desc">Isi data di bawah, klik kirim, dan kamu akan langsung diarahkan ke WhatsApp admin untuk aktivasi akun.</p>
+        <p class="card-desc">Isi data di bawah, klik kirim, dan kamu akan langsung diarahkan ke WhatsApp <b>Arisu</b> (CS kami) untuk aktivasi akun.</p>
 
         <form id="registerForm" onsubmit="return false;">
 
@@ -652,11 +654,11 @@
 
           <button type="submit" class="btn btn-wa" id="btnDaftar" onclick="daftar()">
             <span style="font-size:1.15rem;">💬</span>
-            <span>Kirim ke WA Admin</span>
+            <span>Kirim ke WA Arisu</span>
           </button>
 
           <p style="font-size:0.72rem;color:#94a3b8;text-align:center;margin:12px 0 0;line-height:1.5;">
-            Kamu akan diarahkan ke WhatsApp admin dengan pesan otomatis berisi data kamu.
+            Kamu akan diarahkan ke WhatsApp <b>Arisu</b> dengan pesan otomatis berisi data kamu.
           </p>
 
           <!-- CS INFO BOX -->
@@ -664,8 +666,8 @@
             <div class="cs-icon">💬</div>
             <div class="cs-content">
               Butuh refund atau ada pertanyaan seputar Warung Sinon?<br>
-              Hubungi CS kami di <b>083107005927</b> —
-              <a href="https://wa.me/6283107005927?text=Halo%20CS%20Warung%20Sinon%2C%20saya%20mau%20tanya..." target="_blank" rel="noopener">Chat via WhatsApp →</a>
+              Hubungi <b>Arisu</b> di <b>083107005927</b> —
+              <a href="https://wa.me/6283107005927?text=Halo%20Arisu%2C%20saya%20mau%20tanya..." target="_blank" rel="noopener">Chat via WhatsApp →</a>
             </div>
           </div>
         </form>
@@ -682,7 +684,7 @@
         <div class="success-icon">✅</div>
         <h2 class="success-title">Data Terkirim ke WA</h2>
         <p class="success-desc">
-          Kamu baru saja diarahkan ke WhatsApp admin. Kalau WA belum terbuka otomatis, klik tombol di bawah.
+          Kamu baru saja diarahkan ke WhatsApp <b>Arisu</b>. Kalau WA belum terbuka otomatis, klik tombol di bawah.
         </p>
 
         <div class="info-steps">
@@ -697,17 +699,17 @@
           </div>
           <div class="info-step">
             <span class="num-badge">3</span>
-            <span>Tunggu admin buatkan akun, biasanya <b>1-24 jam</b></span>
+            <span>Tunggu <b>Arisu</b> buatkan akun, biasanya <b>1-24 jam</b></span>
           </div>
           <div class="info-step">
             <span class="num-badge">4</span>
-            <span>Admin akan kirim info akun ke WA kamu</span>
+            <span>Arisu akan kirim info akun ke WA kamu</span>
           </div>
         </div>
 
         <a href="#" class="btn btn-wa" id="btnWa" target="_blank" rel="noopener">
           <span style="font-size:1.15rem;">💬</span>
-          <span>Buka WhatsApp Admin</span>
+          <span>Buka WhatsApp Arisu</span>
         </a>
 
         <button class="btn btn-outline" onclick="ulangForm()" style="margin-top:10px;">
@@ -716,7 +718,7 @@
         </button>
 
         <p class="mini-warn">
-          ⚠️ <b>Penting:</b> Jangan hapus atau ubah pesan yang terisi otomatis, karena admin butuh datanya untuk buat akun kamu.
+          ⚠️ <b>Penting:</b> Jangan hapus atau ubah pesan yang terisi otomatis, karena Arisu butuh datanya untuk buat akun kamu.
         </p>
 
         <div class="divider">atau</div>
@@ -731,10 +733,10 @@
     <!-- FOOTER -->
     <div class="page-footer">
       © 2026 Warung Sinon · Beta Version<br>
-      Dengan mendaftar, kamu setuju data dikirim ke admin via WhatsApp.
+      Dengan mendaftar, kamu setuju data dikirim ke Arisu via WhatsApp.
       <br>
-      <a href="https://wa.me/6283107005927?text=Halo%20CS%20Warung%20Sinon..." target="_blank" rel="noopener" class="cs-footer">
-        💬 CS: 083107005927 (klik untuk chat)
+      <a href="https://wa.me/6283107005927?text=Halo%20Arisu..." target="_blank" rel="noopener" class="cs-footer">
+        💬 CS Arisu: 083107005927 (klik untuk chat)
       </a>
     </div>
 
@@ -746,9 +748,9 @@
     // ============================================================
     // KONFIGURASI
     // ============================================================
-    const ADMIN_WA = "6283107005927";       // nomor WA admin (62xxx)
+    const ADMIN_WA = "6283107005927";       // nomor WA CS Arisu (62xxx)
     const CS_NUMBER = "083107005927";       // nomor CS display (format lokal)
-    const CS_WA_LINK = "https://wa.me/6283107005927";
+    const CS_NAME = "Arisu";                // nama CS
 
     let lastWaLink = "";
 
@@ -771,14 +773,14 @@
         "1. Akun hanya untuk penggunaan pribadi.\n" +
         "2. Tidak untuk aktivitas ilegal (judi, penipuan, dll).\n" +
         "3. Saldo tidak bisa di-refund setelah dipakai untuk transaksi.\n" +
-        "4. Admin berhak menonaktifkan akun yang melanggar aturan.\n" +
-        "5. Data kamu akan dikirim ke admin via WhatsApp untuk keperluan aktivasi akun.\n" +
-        "6. Password yang kamu daftarkan saat ini hanya sebagai permintaan — admin akan buatkan akun & kirim ulang via WA.\n\n" +
+        "4. CS berhak menonaktifkan akun yang melanggar aturan.\n" +
+        "5. Data kamu akan dikirim ke CS Arisu via WhatsApp untuk keperluan aktivasi akun.\n" +
+        "6. Password yang kamu daftarkan saat ini hanya sebagai permintaan — CS akan buatkan akun & kirim ulang via WA.\n\n" +
         "━━━━━━━━━━━━━━━━━━\n" +
         "📞 KONTAK CS & REFUND\n" +
         "━━━━━━━━━━━━━━━━━━\n" +
         "Untuk refund atau pertanyaan seputar Warung Sinon:\n\n" +
-        "CS WhatsApp: " + CS_NUMBER + "\n\n" +
+        "CS " + CS_NAME + " WhatsApp: " + CS_NUMBER + "\n\n" +
         "Balasan CS biasanya dalam 1-24 jam. Terima kasih! 🙏"
       );
     }
@@ -799,21 +801,18 @@
     }
 
     // ============================================================
-    // EMAIL HELPER — BEBAS ISI APAPUN
+    // EMAIL HELPER
     // ============================================================
     function getEmail() {
       return document.getElementById("regEmail").value.trim().toLowerCase();
     }
 
-    // Validasi email standar
     function isValidEmail(email) {
       if (!email) return false;
       if (email.length > 80) return false;
-      // Regex email umum: huruf@huruf.huruf
       return /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(email);
     }
 
-    // Update preview email (konfirmasi)
     function updateEmailPreview() {
       const email = getEmail();
       const preview = document.getElementById("emailPreview");
@@ -828,7 +827,6 @@
         return;
       }
 
-      // Deteksi provider (bukan wajib gmail — cuma info)
       let provider = "email";
       if (email.endsWith("@gmail.com")) provider = "Gmail";
       else if (email.endsWith("@yahoo.com") || email.endsWith("@yahoo.co.id")) provider = "Yahoo";
@@ -891,6 +889,8 @@
 
     // ============================================================
     // BUILD PESAN WA
+    // ⭐ Opening pakai "daftar akun" biar bisa ke-trigger
+    //    auto-reply Fonnte dengan keyword "daftar akun"
     // ============================================================
     function buildWaMessage(data) {
       const tgl = new Date().toLocaleString("id-ID", {
@@ -898,9 +898,9 @@
         hour: "2-digit", minute: "2-digit"
       });
 
-      return `Halo Admin Warung Sinon 👋
+      return `Halo ${CS_NAME} 👋
 
-Saya mau daftar akun di website. Mohon dibantu untuk dibuatkan akun ya 🙏
+Saya mau daftar akun di website Warung Sinon. Mohon dibantu untuk dibuatkan akun ya 🙏
 
 ━━━━━━━━━━━━━━━━━━
 📋 *DATA PENDAFTARAN*
@@ -914,7 +914,7 @@ Saya mau daftar akun di website. Mohon dibantu untuk dibuatkan akun ya 🙏
 
 Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏
 
-_(Butuh refund atau ada pertanyaan lain, hubungi CS: ${CS_NUMBER})_`;
+_(Butuh refund atau ada pertanyaan lain, hubungi CS ${CS_NAME}: ${CS_NUMBER})_`;
     }
 
     // ============================================================
@@ -927,7 +927,6 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS: ${CS_NUMBER})_`;
       const password = document.getElementById("regPassword").value;
       const terms = document.getElementById("regTerms").checked;
 
-      // Reset errors
       ["errNama", "errEmail", "errNoHp", "errPassword"].forEach(id => showError(id, false));
       ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
 
@@ -949,7 +948,6 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS: ${CS_NUMBER})_`;
       if (!valid) return toast("Periksa kembali form kamu", "error");
       if (!terms) return toast("Centang Syarat & Ketentuan dulu", "error");
 
-      // Build WA link
       const waMsg = buildWaMessage({ nama, email, noHp, password });
       const waLink = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(waMsg)}`;
       lastWaLink = waLink;
@@ -963,7 +961,6 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS: ${CS_NUMBER})_`;
 
       window.scrollTo({ top: 0, behavior: "smooth" });
 
-      // Auto-buka WA
       setTimeout(() => {
         try { window.open(waLink, "_blank"); } catch (e) {}
       }, 400);
@@ -1009,10 +1006,8 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS: ${CS_NUMBER})_`;
       if (isValidPhone(v)) { showError("errNoHp", false); setInputError("regNoHp", false); }
     });
 
-    // Email input — auto-clean + preview
     const emailInput = document.getElementById("regEmail");
     emailInput.addEventListener("input", () => {
-      // Buang spasi (kebanyakan orang gak sengaja ketik spasi)
       const raw = emailInput.value;
       if (raw.includes(" ")) emailInput.value = raw.replace(/\s/g, "");
       updateEmailPreview();
@@ -1020,7 +1015,6 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS: ${CS_NUMBER})_`;
       if (isValidEmail(email)) { showError("errEmail", false); setInputError("regEmail", false); }
     });
 
-    // Cegah spasi di email
     emailInput.addEventListener("keydown", (e) => {
       if (e.key === " ") e.preventDefault();
     });
