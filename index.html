@@ -888,9 +888,13 @@
     }
 
     // ============================================================
-    // BUILD PESAN WA
-    // ⭐ Opening pakai "daftar akun" biar bisa ke-trigger
-    //    auto-reply Fonnte dengan keyword "daftar akun"
+    // ⭐ BUILD PESAN WA — FIX BUG AUTO-REPLY "HALO"
+    // ============================================================
+    // Kata "Halo" dihapus dari opening message biar Fonnte
+    // gak salah trigger keyword "halo" (yang ada di rule no. 1).
+    //
+    // Opening sekarang pakai "Daftar akun" — biar langsung match
+    // keyword "daftar" di Fonnte, bukan "halo".
     // ============================================================
     function buildWaMessage(data) {
       const tgl = new Date().toLocaleString("id-ID", {
@@ -898,7 +902,7 @@
         hour: "2-digit", minute: "2-digit"
       });
 
-      return `Daftar, Halo ${CS_NAME} 👋
+      return `Daftar akun Warung Sinon
 
 Saya mau daftar akun di website Warung Sinon. Mohon dibantu untuk dibuatkan akun ya 🙏
 
