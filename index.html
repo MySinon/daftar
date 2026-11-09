@@ -405,6 +405,7 @@
       font-weight: 800;
       color: var(--text);
       text-align: center;
+      letter-spacing: -0.3px;
     }
     .success-desc {
       margin: 0 0 22px;
@@ -415,10 +416,11 @@
     }
 
     .info-steps {
-      background: #f8fafc;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
       border-radius: 14px;
       padding: 16px 18px;
       margin-bottom: 20px;
+      border: 1px solid #eef0f4;
     }
     .info-steps h4 {
       margin: 0 0 12px;
@@ -575,13 +577,14 @@
   </style>
 </head>
 <body>
+  <body>
 
   <div class="auth-wrap">
 
     <!-- BETA BANNER -->
     <div class="beta-banner">
       <span class="badge">BETA</span>
-      <span>Versi <b>BETA</b> — setelah daftar, akun kamu akan diverifikasi admin dalam <b>1-24 jam</b>.</span>
+      <span>Versi <b>BETA</b> — verifikasi akun dalam <b>5 menit – 24 jam</b>.</span>
     </div>
 
     <!-- BRAND -->
@@ -597,7 +600,7 @@
       <!-- FORM SCREEN -->
       <div class="form-screen" id="formScreen">
         <h2 class="card-title">Daftar Akun</h2>
-        <p class="card-desc">Isi data di bawah untuk membuat akun. Setelah daftar, admin akan memverifikasi akun kamu dalam <b>1-24 jam</b>.</p>
+        <p class="card-desc">Isi data di bawah untuk membuat akun. Setelah daftar, admin akan memverifikasi akun kamu dalam <b>5 menit – 24 jam</b>.</p>
 
         <form id="registerForm" onsubmit="return false;">
 
@@ -689,24 +692,24 @@
           Sudah punya akun? <a href="https://warungsinon.my.id/">Masuk di sini</a>
         </div>
       </div>
-
-      <!-- SUCCESS SCREEN -->
+            <!-- SUCCESS SCREEN -->
       <div class="success-screen" id="successScreen">
         <div class="success-icon">✅</div>
-        <h2 class="success-title">Akun Berhasil Dibuat!</h2>
+        <h2 class="success-title">Pendaftaran Berhasil!</h2>
         <p class="success-desc">
-          Akun kamu sedang <b>menunggu verifikasi admin</b>. Setelah disetujui, kamu akan dihubungi via WhatsApp.
+          Akun kamu sedang <b>menunggu verifikasi admin</b>.<br>
+          Estimasi verifikasi <b>5 menit – 24 jam</b>.
         </p>
 
         <div class="info-steps">
           <h4>📋 Langkah Selanjutnya</h4>
           <div class="info-step">
             <span class="num-badge">1</span>
-            <span>Admin akan memverifikasi akun kamu dalam <b>1-24 jam</b></span>
+            <span>Admin memverifikasi akun kamu dalam <b>5 menit – 24 jam</b></span>
           </div>
           <div class="info-step">
             <span class="num-badge">2</span>
-            <span>Kamu akan dihubungi via <b>WhatsApp</b> setelah disetujui</span>
+            <span>Notifikasi persetujuan dikirim ke <b>WhatsApp</b> kamu</span>
           </div>
           <div class="info-step">
             <span class="num-badge">3</span>
@@ -714,23 +717,14 @@
           </div>
           <div class="info-step">
             <span class="num-badge">4</span>
-            <span>Jika ada pertanyaan, hubungi CS Arisu di <b>083107005927</b></span>
+            <span>Ada kendala? Hubungi CS Arisu di <b>083107005927</b></span>
           </div>
         </div>
 
-        <a href="https://wa.me/6283107005927?text=Halo%20Arisu%2C%20saya%20sudah%20daftar%20akun.%20Mohon%20diverifikasi%20ya" class="btn btn-wa" target="_blank" rel="noopener">
+        <a href="https://wa.me/6283107005927?text=Halo%20Arisu%2C%20saya%20sudah%20daftar%20akun%20dan%20ingin%20menanyakan%20status%20verifikasi" class="btn btn-wa" target="_blank" rel="noopener">
           <span style="font-size:1.15rem;">💬</span>
-          <span>Konfirmasi ke CS Arisu</span>
+          <span>Hubungi CS Jika Ada Kendala</span>
         </a>
-
-        <button class="btn btn-outline" onclick="ulangForm()" style="margin-top:10px;">
-          <span>↺</span>
-          <span>Isi Form Lagi</span>
-        </button>
-
-        <p class="mini-warn">
-          ⚠️ <b>Penting:</b> Jangan lupa login setelah akun diverifikasi admin.
-        </p>
 
         <div class="divider">atau</div>
 
@@ -774,9 +768,8 @@
     const db = firebase.database();
 
     // ============================================================
-    // ⚠️ GANTI WORKER_URL INI DENGAN URL CLOUDFLARE WORKER KAMU
+    // WORKER URL
     // ============================================================
-    // Contoh: https://warung-sinon-register.sinondev.workers.dev/register
     const WORKER_URL = "https://register-handler.rizqi130108.workers.dev/register";
 
     // ============================================================
@@ -819,7 +812,7 @@
         "2. Tidak untuk aktivitas ilegal (judi, penipuan, dll).\n" +
         "3. Saldo tidak bisa di-refund setelah dipakai untuk transaksi.\n" +
         "4. CS berhak menonaktifkan akun yang melanggar aturan.\n" +
-        "5. Setelah daftar, akun akan diverifikasi admin dalam 1-24 jam.\n" +
+        "5. Setelah daftar, akun akan diverifikasi admin dalam 5 menit – 24 jam.\n" +
         "6. Kamu akan dihubungi via WhatsApp setelah akun aktif.\n\n" +
         "━━━━━━━━━━━━━━━━━━\n" +
         "📞 KONTAK CS & REFUND\n" +
@@ -933,7 +926,7 @@
     }
 
     // ============================================================
-    // DAFTAR — FLOW BARU: Firebase Auth + Turnstile + Worker
+    // DAFTAR — Firebase Auth + Turnstile + Worker
     // ============================================================
     async function daftar() {
       if (isSubmitting) return;
@@ -944,11 +937,9 @@
       const password = document.getElementById("regPassword").value;
       const terms = document.getElementById("regTerms").checked;
 
-      // Reset semua error
       ["errNama", "errEmail", "errNoHp", "errPassword"].forEach(id => showError(id, false));
       ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
 
-      // Validasi
       let valid = true;
       if (!nama || nama.length > 60) {
         showError("errNama", true); setInputError("regNama", true); valid = false;
@@ -975,13 +966,13 @@
       let uid = null;
 
       try {
-        // ============ STEP 1: CREATE FIREBASE AUTH ============
+        // STEP 1: CREATE FIREBASE AUTH
         console.log("[register] Creating Firebase Auth user...");
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         uid = userCredential.user.uid;
         console.log("[register] ✅ Firebase Auth created, uid:", uid);
 
-        // ============ STEP 2: SAVE TO DATABASE ============
+        // STEP 2: SAVE TO DATABASE
         console.log("[register] Saving profile to database...");
         await db.ref("users/" + uid).set({
           nama: nama,
@@ -995,11 +986,9 @@
         });
         console.log("[register] ✅ Profile saved to DB");
 
-        // Logout setelah daftar biar user login manual setelah approve
         await auth.signOut();
 
-        // ============ STEP 3: VERIFY TURNSTILE + NOTIF TELEGRAM ============
-        // Best effort — kalau Worker gagal, user tetap punya akun
+        // STEP 3: VERIFY TURNSTILE + NOTIF TELEGRAM
         console.log("[register] Calling Worker for Turnstile + Telegram...");
         try {
           const workerRes = await fetch(WORKER_URL, {
@@ -1019,28 +1008,24 @@
           if (!workerData.ok) {
             console.warn("[register] ⚠️ Worker returned:", workerData);
             if (workerData.error && workerData.error.toLowerCase().includes("turnstile")) {
-              // Turnstile gagal — ini serious, tapi akun udah kebuat
               console.error("[register] ❌ Turnstile verification failed");
-              // Tetap tampilkan success, tapi warn user
               toast("⚠️ Verifikasi anti-bot gagal, tapi akun sudah dibuat. Hubungi CS.", "warn");
             }
           } else {
             console.log("[register] ✅ Worker OK, admin notified via Telegram");
           }
         } catch (workerErr) {
-          // Worker error — bukan blocker
           console.warn("[register] ⚠️ Worker call failed:", workerErr.message);
           console.warn("[register] Admin tidak dapat notif Telegram, tapi akun sudah dibuat");
         }
 
-        // ============ STEP 4: SHOW SUCCESS ============
+        // STEP 4: SHOW SUCCESS
         document.getElementById("formScreen").classList.add("hide");
         document.getElementById("successScreen").classList.add("show");
         toast("✅ Akun berhasil dibuat!");
 
         window.scrollTo({ top: 0, behavior: "smooth" });
 
-        // Reset turnstile widget
         if (window.turnstile) {
           try { window.turnstile.reset(); } catch (e) {}
         }
@@ -1048,7 +1033,6 @@
       } catch (error) {
         console.error("[register] ❌ Error:", error);
 
-        // Handle specific Firebase Auth errors
         let msg = "Gagal mendaftar. Coba lagi.";
 
         if (error.code === "auth/email-already-in-use") {
@@ -1069,7 +1053,6 @@
 
         toast(msg, "error");
 
-        // Kalau Firebase Auth berhasil tapi DB gagal, hapus auth user biar gak orphan
         if (uid && !error.code) {
           console.warn("[register] Rolling back Firebase Auth user due to DB error...");
           try {
@@ -1090,39 +1073,11 @@
         btn.innerHTML = '<span style="font-size:1.15rem;">💡</span><span>Daftar Sekarang</span>';
         turnstileToken = null;
 
-        // Reset turnstile widget kalau masih di form screen
         const formScreen = document.getElementById("formScreen");
         if (!formScreen.classList.contains("hide") && window.turnstile) {
           try { window.turnstile.reset(); } catch (e) {}
         }
       }
-    }
-
-    // ============================================================
-    // ULANG FORM
-    // ============================================================
-    function ulangForm() {
-      ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = "";
-      });
-      document.getElementById("regTerms").checked = false;
-      ["errNama", "errEmail", "errNoHp", "errPassword"].forEach(id => showError(id, false));
-      ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
-      document.getElementById("emailPreview").innerHTML = "";
-      updatePwStrength();
-
-      document.getElementById("successScreen").classList.remove("show");
-      document.getElementById("formScreen").classList.remove("hide");
-
-      // Reset turnstile
-      turnstileToken = null;
-      if (window.turnstile) {
-        try { window.turnstile.reset(); } catch (e) {}
-      }
-
-      document.getElementById("regNama").focus();
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     // ============================================================
