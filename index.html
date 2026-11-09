@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <style>
     :root {
@@ -55,7 +56,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* BETA BANNER */
     .beta-banner {
       background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
       border: 1px solid #fbbf24;
@@ -81,7 +81,6 @@
       flex-shrink: 0;
     }
 
-    /* BRAND */
     .brand { text-align: center; margin-bottom: 22px; }
     .brand-logo {
       width: 76px;
@@ -120,7 +119,6 @@
       font-weight: 500;
     }
 
-    /* CARD */
     .card {
       background: white;
       border-radius: 22px;
@@ -142,7 +140,6 @@
       line-height: 1.55;
     }
 
-    /* FORM */
     .form-group { margin-bottom: 14px; }
     label {
       display: block;
@@ -196,7 +193,6 @@
     }
     input.input-error { border-color: var(--danger); background: #fff5f5; }
 
-    /* Email preview / hint */
     .email-preview {
       margin-top: 8px;
       font-size: 0.78rem;
@@ -284,7 +280,6 @@
     }
     .checkbox-wrap a:hover { text-decoration: underline; }
 
-    /* BUTTONS */
     .btn {
       width: 100%;
       padding: 14px 20px;
@@ -368,7 +363,6 @@
     }
     .auth-footer a:hover { text-decoration: underline; }
 
-    /* SUCCESS */
     .success-screen { display: none; }
     .success-screen.show { display: block; }
     .form-screen.hide { display: none; }
@@ -469,7 +463,6 @@
     }
     .mini-warn b { color: #d68910; }
 
-    /* CS INFO BOX */
     .cs-box {
       background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
       border: 1px solid #6ee7b7;
@@ -508,7 +501,6 @@
       border-bottom-style: solid;
     }
 
-    /* TOAST */
     .toast {
       position: fixed;
       top: 20px;
@@ -531,7 +523,6 @@
     .toast.error { background: var(--danger); }
     .toast.info { background: #3498db; }
 
-    /* FOOTER */
     .page-footer {
       text-align: center;
       font-size: 0.72rem;
@@ -556,6 +547,23 @@
     }
     .page-footer .cs-footer a:hover { text-decoration: underline; }
 
+    .cf-turnstile-wrap {
+      margin: 8px 0 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     @media (max-width: 500px) {
       body { padding: 12px 12px 30px; align-items: flex-start; }
       .card { padding: 22px 18px; border-radius: 18px; }
@@ -566,7 +574,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <div class="auth-wrap">
@@ -574,7 +581,7 @@
     <!-- BETA BANNER -->
     <div class="beta-banner">
       <span class="badge">BETA</span>
-      <span>Versi <b>BETA</b> — setelah isi form, kamu akan diarahkan ke WA <b>Arisu</b> untuk aktivasi akun.</span>
+      <span>Versi <b>BETA</b> — setelah daftar, akun kamu akan diverifikasi admin dalam <b>1-24 jam</b>.</span>
     </div>
 
     <!-- BRAND -->
@@ -590,7 +597,7 @@
       <!-- FORM SCREEN -->
       <div class="form-screen" id="formScreen">
         <h2 class="card-title">Daftar Akun</h2>
-        <p class="card-desc">Isi data di bawah, klik kirim, dan kamu akan langsung diarahkan ke WhatsApp <b>Arisu</b> (CS kami) untuk aktivasi akun.</p>
+        <p class="card-desc">Isi data di bawah untuk membuat akun. Setelah daftar, admin akan memverifikasi akun kamu dalam <b>1-24 jam</b>.</p>
 
         <form id="registerForm" onsubmit="return false;">
 
@@ -603,7 +610,6 @@
             <div class="field-error" id="errNama">Nama wajib diisi (max 60 karakter)</div>
           </div>
 
-          <!-- EMAIL BEBAS -->
           <div class="form-group">
             <label>Email <span class="label-hint">— disarankan pakai Gmail</span></label>
             <div class="input-wrap">
@@ -623,7 +629,7 @@
           </div>
 
           <div class="form-group">
-            <label>No HP <span class="label-hint">(buat login & konfirmasi WA)</span></label>
+            <label>No HP <span class="label-hint">(buat konfirmasi WA)</span></label>
             <div class="input-wrap">
               <span class="input-icon">📱</span>
               <input type="text" id="regNoHp" placeholder="6281234567890" inputmode="numeric" autocomplete="tel" maxlength="15" />
@@ -632,7 +638,7 @@
           </div>
 
           <div class="form-group">
-            <label>Password yang Diinginkan</label>
+            <label>Password</label>
             <div class="input-wrap">
               <span class="input-icon">🔒</span>
               <input type="password" id="regPassword" placeholder="Min 6 karakter" autocomplete="new-password" maxlength="64" />
@@ -652,20 +658,25 @@
             <span>Saya setuju dengan <a href="#" onclick="showTnC(); return false;">Syarat & Ketentuan</a> Warung Sinon</span>
           </label>
 
+          <!-- CLOUDFLARE TURNSTILE -->
+          <div class="cf-turnstile-wrap">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAF5syJ1go3xusCux" data-callback="onTurnstileSuccess" data-theme="light"></div>
+          </div>
+
           <button type="submit" class="btn btn-wa" id="btnDaftar" onclick="daftar()">
-            <span style="font-size:1.15rem;">💬</span>
-            <span>Kirim ke WA Arisu</span>
+            <span style="font-size:1.15rem;">💡</span>
+            <span>Daftar Sekarang</span>
           </button>
 
           <p style="font-size:0.72rem;color:#94a3b8;text-align:center;margin:12px 0 0;line-height:1.5;">
-            Kamu akan diarahkan ke WhatsApp <b>Arisu</b> dengan pesan otomatis berisi data kamu.
+            Akun kamu akan <b>langsung dibuat</b>, lalu menunggu verifikasi admin.
           </p>
 
           <!-- CS INFO BOX -->
           <div class="cs-box">
             <div class="cs-icon">💬</div>
             <div class="cs-content">
-              Butuh refund atau ada pertanyaan seputar Warung Sinon?<br>
+              Butuh bantuan atau ada pertanyaan seputar Warung Sinon?<br>
               Hubungi <b>Arisu</b> di <b>083107005927</b> —
               <a href="https://wa.me/6283107005927?text=Halo%20Arisu%2C%20saya%20mau%20tanya..." target="_blank" rel="noopener">Chat via WhatsApp →</a>
             </div>
@@ -682,34 +693,34 @@
       <!-- SUCCESS SCREEN -->
       <div class="success-screen" id="successScreen">
         <div class="success-icon">✅</div>
-        <h2 class="success-title">Data Terkirim ke WA</h2>
+        <h2 class="success-title">Akun Berhasil Dibuat!</h2>
         <p class="success-desc">
-          Kamu baru saja diarahkan ke WhatsApp <b>Arisu</b>. Kalau WA belum terbuka otomatis, klik tombol di bawah.
+          Akun kamu sedang <b>menunggu verifikasi admin</b>. Setelah disetujui, kamu akan dihubungi via WhatsApp.
         </p>
 
         <div class="info-steps">
           <h4>📋 Langkah Selanjutnya</h4>
           <div class="info-step">
             <span class="num-badge">1</span>
-            <span>Klik tombol <b>Buka WhatsApp</b> di bawah</span>
+            <span>Admin akan memverifikasi akun kamu dalam <b>1-24 jam</b></span>
           </div>
           <div class="info-step">
             <span class="num-badge">2</span>
-            <span>Pesan sudah otomatis terisi — tinggal <b>kirim</b> (jangan diubah)</span>
+            <span>Kamu akan dihubungi via <b>WhatsApp</b> setelah disetujui</span>
           </div>
           <div class="info-step">
             <span class="num-badge">3</span>
-            <span>Tunggu <b>Arisu</b> buatkan akun, biasanya <b>1-24 jam</b></span>
+            <span>Setelah aktif, kamu bisa langsung login & transaksi</span>
           </div>
           <div class="info-step">
             <span class="num-badge">4</span>
-            <span>Arisu akan kirim info akun ke WA kamu</span>
+            <span>Jika ada pertanyaan, hubungi CS Arisu di <b>083107005927</b></span>
           </div>
         </div>
 
-        <a href="#" class="btn btn-wa" id="btnWa" target="_blank" rel="noopener">
+        <a href="https://wa.me/6283107005927?text=Halo%20Arisu%2C%20saya%20sudah%20daftar%20akun.%20Mohon%20diverifikasi%20ya" class="btn btn-wa" target="_blank" rel="noopener">
           <span style="font-size:1.15rem;">💬</span>
-          <span>Buka WhatsApp Arisu</span>
+          <span>Konfirmasi ke CS Arisu</span>
         </a>
 
         <button class="btn btn-outline" onclick="ulangForm()" style="margin-top:10px;">
@@ -718,7 +729,7 @@
         </button>
 
         <p class="mini-warn">
-          ⚠️ <b>Penting:</b> Jangan hapus atau ubah pesan yang terisi otomatis, karena Arisu butuh datanya untuk buat akun kamu.
+          ⚠️ <b>Penting:</b> Jangan lupa login setelah akun diverifikasi admin.
         </p>
 
         <div class="divider">atau</div>
@@ -733,7 +744,7 @@
     <!-- FOOTER -->
     <div class="page-footer">
       © 2026 Warung Sinon · Beta Version<br>
-      Dengan mendaftar, kamu setuju data dikirim ke Arisu via WhatsApp.
+      Dengan mendaftar, kamu setuju dengan Syarat & Ketentuan Warung Sinon.
       <br>
       <a href="https://wa.me/6283107005927?text=Halo%20Arisu..." target="_blank" rel="noopener" class="cs-footer">
         💬 CS Arisu: 083107005927 (klik untuk chat)
@@ -744,15 +755,41 @@
 
   <div class="toast" id="toast"></div>
 
-  <script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+    <script>
     // ============================================================
-    // KONFIGURASI
+    // KONFIGURASI FIREBASE
     // ============================================================
-    const ADMIN_WA = "6283107005927";       // nomor WA CS Arisu (62xxx)
-    const CS_NUMBER = "083107005927";       // nomor CS display (format lokal)
-    const CS_NAME = "Arisu";                // nama CS
+    const firebaseConfig = {
+      apiKey: "AIzaSyCGtIGgcT5-WF74vuIuC11BQMNMb_S2BeY",
+      authDomain: "warung-sinon.firebaseapp.com",
+      databaseURL: "https://warung-sinon-default-rtdb.asia-southeast1.firebasedatabase.app"
+    };
 
-    let lastWaLink = "";
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    // ============================================================
+    // ⚠️ GANTI WORKER_URL INI DENGAN URL CLOUDFLARE WORKER KAMU
+    // ============================================================
+    // Contoh: https://warung-sinon-register.sinondev.workers.dev/register
+    const WORKER_URL = "https://register-handler.rizqi130108.workers.dev/register";
+
+    // ============================================================
+    // INFO CS
+    // ============================================================
+    const CS_NUMBER = "083107005927";
+    const CS_NAME = "Arisu";
+
+    // ============================================================
+    // STATE
+    // ============================================================
+    let turnstileToken = null;
+    let isSubmitting = false;
 
     // ============================================================
     // TOAST
@@ -765,7 +802,15 @@
     }
 
     // ============================================================
-    // T&C (SYARAT & KETENTUAN + CS)
+    // TURNSTILE CALLBACK
+    // ============================================================
+    function onTurnstileSuccess(token) {
+      turnstileToken = token;
+      console.log("[turnstile] ✅ Token received");
+    }
+
+    // ============================================================
+    // T&C (SYARAT & KETENTUAN)
     // ============================================================
     function showTnC() {
       alert(
@@ -774,8 +819,8 @@
         "2. Tidak untuk aktivitas ilegal (judi, penipuan, dll).\n" +
         "3. Saldo tidak bisa di-refund setelah dipakai untuk transaksi.\n" +
         "4. CS berhak menonaktifkan akun yang melanggar aturan.\n" +
-        "5. Data kamu akan dikirim ke CS Arisu via WhatsApp untuk keperluan aktivasi akun.\n" +
-        "6. Password yang kamu daftarkan saat ini hanya sebagai permintaan — CS akan buatkan akun & kirim ulang via WA.\n\n" +
+        "5. Setelah daftar, akun akan diverifikasi admin dalam 1-24 jam.\n" +
+        "6. Kamu akan dihubungi via WhatsApp setelah akun aktif.\n\n" +
         "━━━━━━━━━━━━━━━━━━\n" +
         "📞 KONTAK CS & REFUND\n" +
         "━━━━━━━━━━━━━━━━━━\n" +
@@ -888,54 +933,23 @@
     }
 
     // ============================================================
-    // ⭐ BUILD PESAN WA — FIX BUG AUTO-REPLY "HALO"
+    // DAFTAR — FLOW BARU: Firebase Auth + Turnstile + Worker
     // ============================================================
-    // Kata "Halo" dihapus dari opening message biar Fonnte
-    // gak salah trigger keyword "halo" (yang ada di rule no. 1).
-    //
-    // Opening sekarang pakai "Daftar akun" — biar langsung match
-    // keyword "daftar" di Fonnte, bukan "halo".
-    // ============================================================
-    function buildWaMessage(data) {
-      const tgl = new Date().toLocaleString("id-ID", {
-        day: "2-digit", month: "short", year: "numeric",
-        hour: "2-digit", minute: "2-digit"
-      });
+    async function daftar() {
+      if (isSubmitting) return;
 
-      return `Daftar akun Warung Sinon
-
-Saya mau daftar akun di website Warung Sinon. Mohon dibantu untuk dibuatkan akun ya 🙏
-
-━━━━━━━━━━━━━━━━━━
-📋 *DATA PENDAFTARAN*
-━━━━━━━━━━━━━━━━━━
-👤 Nama     : ${data.nama}
-📧 Email    : ${data.email}
-📱 No HP    : ${data.noHp}
-🔒 Password : ${data.password}
-🕒 Waktu    : ${tgl}
-━━━━━━━━━━━━━━━━━━
-
-Mohon dibuatkan akunnya, lalu kirim info login ke WA saya. Terima kasih! 🙏
-
-_(Butuh refund atau ada pertanyaan lain, hubungi CS ${CS_NAME}: ${CS_NUMBER})_`;
-    }
-
-    // ============================================================
-    // DAFTAR → KIRIM KE WA
-    // ============================================================
-    function daftar() {
       const nama = document.getElementById("regNama").value.trim();
       const email = getEmail();
       const noHp = document.getElementById("regNoHp").value.trim();
       const password = document.getElementById("regPassword").value;
       const terms = document.getElementById("regTerms").checked;
 
+      // Reset semua error
       ["errNama", "errEmail", "errNoHp", "errPassword"].forEach(id => showError(id, false));
       ["regNama", "regEmail", "regNoHp", "regPassword"].forEach(id => setInputError(id, false));
 
+      // Validasi
       let valid = true;
-
       if (!nama || nama.length > 60) {
         showError("errNama", true); setInputError("regNama", true); valid = false;
       }
@@ -951,23 +965,137 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS ${CS_NAME}: ${CS_NUMBER})_`;
 
       if (!valid) return toast("Periksa kembali form kamu", "error");
       if (!terms) return toast("Centang Syarat & Ketentuan dulu", "error");
+      if (!turnstileToken) return toast("Selesaikan verifikasi anti-bot dulu", "error");
 
-      const waMsg = buildWaMessage({ nama, email, noHp, password });
-      const waLink = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(waMsg)}`;
-      lastWaLink = waLink;
+      const btn = document.getElementById("btnDaftar");
+      btn.disabled = true;
+      isSubmitting = true;
+      btn.innerHTML = '<span class="spinner"></span> <span>Membuat akun...</span>';
 
-      const btnWa = document.getElementById("btnWa");
-      btnWa.href = waLink;
+      let uid = null;
 
-      document.getElementById("formScreen").classList.add("hide");
-      document.getElementById("successScreen").classList.add("show");
-      toast("✅ Data siap dikirim!");
+      try {
+        // ============ STEP 1: CREATE FIREBASE AUTH ============
+        console.log("[register] Creating Firebase Auth user...");
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        uid = userCredential.user.uid;
+        console.log("[register] ✅ Firebase Auth created, uid:", uid);
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+        // ============ STEP 2: SAVE TO DATABASE ============
+        console.log("[register] Saving profile to database...");
+        await db.ref("users/" + uid).set({
+          nama: nama,
+          email: email,
+          noHp: noHp,
+          level: "user",
+          saldo: 0,
+          status: "pending",
+          terdaftar: new Date().toISOString(),
+          createdBy: "self-register"
+        });
+        console.log("[register] ✅ Profile saved to DB");
 
-      setTimeout(() => {
-        try { window.open(waLink, "_blank"); } catch (e) {}
-      }, 400);
+        // Logout setelah daftar biar user login manual setelah approve
+        await auth.signOut();
+
+        // ============ STEP 3: VERIFY TURNSTILE + NOTIF TELEGRAM ============
+        // Best effort — kalau Worker gagal, user tetap punya akun
+        console.log("[register] Calling Worker for Turnstile + Telegram...");
+        try {
+          const workerRes = await fetch(WORKER_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              turnstileToken: turnstileToken,
+              nama: nama,
+              email: email,
+              noHp: noHp,
+              uid: uid
+            })
+          });
+
+          const workerData = await workerRes.json();
+
+          if (!workerData.ok) {
+            console.warn("[register] ⚠️ Worker returned:", workerData);
+            if (workerData.error && workerData.error.toLowerCase().includes("turnstile")) {
+              // Turnstile gagal — ini serious, tapi akun udah kebuat
+              console.error("[register] ❌ Turnstile verification failed");
+              // Tetap tampilkan success, tapi warn user
+              toast("⚠️ Verifikasi anti-bot gagal, tapi akun sudah dibuat. Hubungi CS.", "warn");
+            }
+          } else {
+            console.log("[register] ✅ Worker OK, admin notified via Telegram");
+          }
+        } catch (workerErr) {
+          // Worker error — bukan blocker
+          console.warn("[register] ⚠️ Worker call failed:", workerErr.message);
+          console.warn("[register] Admin tidak dapat notif Telegram, tapi akun sudah dibuat");
+        }
+
+        // ============ STEP 4: SHOW SUCCESS ============
+        document.getElementById("formScreen").classList.add("hide");
+        document.getElementById("successScreen").classList.add("show");
+        toast("✅ Akun berhasil dibuat!");
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // Reset turnstile widget
+        if (window.turnstile) {
+          try { window.turnstile.reset(); } catch (e) {}
+        }
+
+      } catch (error) {
+        console.error("[register] ❌ Error:", error);
+
+        // Handle specific Firebase Auth errors
+        let msg = "Gagal mendaftar. Coba lagi.";
+
+        if (error.code === "auth/email-already-in-use") {
+          msg = "Email ini sudah terdaftar. Silakan login atau gunakan email lain.";
+        } else if (error.code === "auth/invalid-email") {
+          msg = "Format email tidak valid.";
+        } else if (error.code === "auth/weak-password") {
+          msg = "Password terlalu lemah. Minimal 6 karakter.";
+        } else if (error.code === "auth/network-request-failed") {
+          msg = "Koneksi internet bermasalah. Coba lagi.";
+        } else if (error.code === "auth/too-many-requests") {
+          msg = "Terlalu banyak percobaan. Tunggu beberapa menit.";
+        } else if (error.code === "auth/operation-not-allowed") {
+          msg = "Pendaftaran sedang dinonaktifkan. Hubungi admin.";
+        } else if (error.message) {
+          msg = error.message;
+        }
+
+        toast(msg, "error");
+
+        // Kalau Firebase Auth berhasil tapi DB gagal, hapus auth user biar gak orphan
+        if (uid && !error.code) {
+          console.warn("[register] Rolling back Firebase Auth user due to DB error...");
+          try {
+            const currentUser = auth.currentUser;
+            if (currentUser && currentUser.uid === uid) {
+              await currentUser.delete();
+              console.log("[register] ✅ Rolled back auth user");
+            }
+          } catch (rollbackErr) {
+            console.error("[register] ❌ Rollback failed:", rollbackErr);
+            toast("⚠️ Terjadi error. Hubungi CS: " + CS_NUMBER, "error");
+          }
+        }
+
+      } finally {
+        isSubmitting = false;
+        btn.disabled = false;
+        btn.innerHTML = '<span style="font-size:1.15rem;">💡</span><span>Daftar Sekarang</span>';
+        turnstileToken = null;
+
+        // Reset turnstile widget kalau masih di form screen
+        const formScreen = document.getElementById("formScreen");
+        if (!formScreen.classList.contains("hide") && window.turnstile) {
+          try { window.turnstile.reset(); } catch (e) {}
+        }
+      }
     }
 
     // ============================================================
@@ -986,6 +1114,12 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS ${CS_NAME}: ${CS_NUMBER})_`;
 
       document.getElementById("successScreen").classList.remove("show");
       document.getElementById("formScreen").classList.remove("hide");
+
+      // Reset turnstile
+      turnstileToken = null;
+      if (window.turnstile) {
+        try { window.turnstile.reset(); } catch (e) {}
+      }
 
       document.getElementById("regNama").focus();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1033,6 +1167,10 @@ _(Butuh refund atau ada pertanyaan lain, hubungi CS ${CS_NAME}: ${CS_NUMBER})_`;
     // ============================================================
     window.addEventListener("load", () => {
       document.getElementById("regNama").focus();
+      console.log("[register] Page loaded. Worker URL:", WORKER_URL);
+      if (WORKER_URL.includes("GANTI-INI")) {
+        console.error("❌⚠️ WORKER_URL BELUM DIUBAH! Ganti dengan URL Cloudflare Worker kamu.");
+      }
     });
   </script>
 
