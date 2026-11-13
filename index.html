@@ -321,19 +321,6 @@
       box-shadow: 0 8px 22px rgba(37, 211, 102, 0.45);
     }
 
-    .btn-outline {
-      background: #f8fafc;
-      color: var(--text);
-      box-shadow: none;
-      border: 2px solid var(--border);
-    }
-    .btn-outline:hover:not(:disabled) {
-      background: #f1f5f9;
-      border-color: #cbd0d8;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-
     .divider {
       display: flex;
       align-items: center;
@@ -455,16 +442,6 @@
     }
     .info-step b { color: var(--text); }
 
-    .mini-warn {
-      font-size: 0.72rem;
-      color: var(--warn);
-      text-align: center;
-      margin-top: 14px;
-      line-height: 1.5;
-      font-weight: 600;
-    }
-    .mini-warn b { color: #d68910; }
-
     .cs-box {
       background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
       border: 1px solid #6ee7b7;
@@ -523,7 +500,8 @@
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
     .toast.error { background: var(--danger); }
-    .toast.info { background: #3498db; }
+    .toast.warn  { background: var(--warn); }
+    .toast.info  { background: #3498db; }
 
     .page-footer {
       text-align: center;
@@ -577,24 +555,20 @@
   </style>
 </head>
 <body>
-  <body>
 
   <div class="auth-wrap">
 
-    <!-- BETA BANNER -->
     <div class="beta-banner">
       <span class="badge">BETA</span>
       <span>Versi <b>BETA</b> — verifikasi akun dalam <b>5 menit – 24 jam</b>.</span>
     </div>
 
-    <!-- BRAND -->
     <div class="brand">
       <div class="brand-logo">🛒</div>
       <h1 class="brand-title">Warung Sinon</h1>
       <p class="brand-sub">Topup game murah, cepat, otomatis</p>
     </div>
 
-    <!-- CARD -->
     <div class="card">
 
       <!-- FORM SCREEN -->
@@ -666,7 +640,7 @@
             <div class="cf-turnstile" data-sitekey="0x4AAAAAAF5syJ1go3xusCux" data-callback="onTurnstileSuccess" data-theme="light"></div>
           </div>
 
-          <button type="submit" class="btn btn-wa" id="btnDaftar" onclick="daftar()">
+          <button type="submit" class="btn btn-wa" id="btnDaftar">
             <span style="font-size:1.15rem;">💡</span>
             <span>Daftar Sekarang</span>
           </button>
@@ -675,7 +649,6 @@
             Akun kamu akan <b>langsung dibuat</b>, lalu menunggu verifikasi admin.
           </p>
 
-          <!-- CS INFO BOX -->
           <div class="cs-box">
             <div class="cs-icon">💬</div>
             <div class="cs-content">
@@ -692,7 +665,8 @@
           Sudah punya akun? <a href="https://warungsinon.my.id/">Masuk di sini</a>
         </div>
       </div>
-            <!-- SUCCESS SCREEN -->
+
+      <!-- SUCCESS SCREEN -->
       <div class="success-screen" id="successScreen">
         <div class="success-icon">✅</div>
         <h2 class="success-title">Pendaftaran Berhasil!</h2>
@@ -735,7 +709,6 @@
 
     </div>
 
-    <!-- FOOTER -->
     <div class="page-footer">
       © 2026 Warung Sinon · Beta Version<br>
       Dengan mendaftar, kamu setuju dengan Syarat & Ketentuan Warung Sinon.
@@ -753,9 +726,10 @@
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
-    <script>
+
+  <script>
     // ============================================================
-    // KONFIGURASI FIREBASE
+    // KONFIGURASI
     // ============================================================
     const firebaseConfig = {
       apiKey: "AIzaSyCGtIGgcT5-WF74vuIuC11BQMNMb_S2BeY",
@@ -767,14 +741,7 @@
     const auth = firebase.auth();
     const db = firebase.database();
 
-    // ============================================================
-    // WORKER URL
-    // ============================================================
     const WORKER_URL = "https://register-handler.rizqi130108.workers.dev/register";
-
-    // ============================================================
-    // INFO CS
-    // ============================================================
     const CS_NUMBER = "083107005927";
     const CS_NAME = "Arisu";
 
@@ -790,7 +757,7 @@
     function toast(msg, tipe = "success") {
       const el = document.getElementById("toast");
       el.textContent = msg;
-      el.className = "toast show " + (tipe === "error" ? "error" : tipe === "info" ? "info" : "");
+      el.className = "toast show " + (tipe === "error" ? "error" : tipe === "warn" ? "warn" : tipe === "info" ? "info" : "");
       setTimeout(() => el.classList.remove("show"), 3500);
     }
 
@@ -802,8 +769,13 @@
       console.log("[turnstile] ✅ Token received");
     }
 
+    function onTurnstileError(code) {
+      turnstileToken = null;
+      console.warn("[turnstile] ❌ Error:", code);
+    }
+
     // ============================================================
-    // T&C (SYARAT & KETENTUAN)
+    // T&C
     // ============================================================
     function showTnC() {
       alert(
@@ -926,7 +898,47 @@
     }
 
     // ============================================================
-    // DAFTAR — Firebase Auth + Turnstile + Worker
+    // CLEANUP — hapus akun & DB entry kalau gagal
+    // ============================================================
+    async function rollbackAccount(uid) {
+      if (!uid) return;
+      console.warn("[register] 🔄 Rolling back account:", uid);
+
+      // 1. Hapus DB entry (kalau ada)
+      try {
+        await db.ref("users/" + uid).remove();
+        console.log("[register] ✅ DB entry removed");
+      } catch (e) {
+        console.error("[register] ⚠️ DB removal failed:", e);
+      }
+
+      // 2. Hapus Firebase Auth user (harus dalam kondisi masih login)
+      try {
+        const cu = auth.currentUser;
+        if (cu && cu.uid === uid) {
+          await cu.delete();
+          console.log("[register] ✅ Firebase Auth user deleted");
+        } else {
+          console.warn("[register] ⚠️ Current user mismatch, skip auth delete");
+        }
+      } catch (e) {
+        console.error("[register] ⚠️ Auth delete failed:", e);
+        toast("⚠️ Gagal rollback akun. Hubungi CS: " + CS_NUMBER, "error");
+      }
+
+      // 3. Sign out
+      try {
+        await auth.signOut();
+      } catch (e) {}
+    }
+
+    // ============================================================
+    // DAFTAR — Flow yang benar:
+    // 1. Buat akun Firebase
+    // 2. Simpan DB (pending)
+    // 3. Verify Turnstile via Worker
+    // 4. Kalau Worker gagal → ROLLBACK akun + DB
+    // 5. Kalau sukses → signOut + success screen
     // ============================================================
     async function daftar() {
       if (isSubmitting) return;
@@ -966,14 +978,14 @@
       let uid = null;
 
       try {
-        // STEP 1: CREATE FIREBASE AUTH
-        console.log("[register] Creating Firebase Auth user...");
+        // STEP 1: Buat akun Firebase Auth
+        console.log("[register] Step 1: Creating Firebase Auth...");
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         uid = userCredential.user.uid;
-        console.log("[register] ✅ Firebase Auth created, uid:", uid);
+        console.log("[register] ✅ Auth created, uid:", uid);
 
-        // STEP 2: SAVE TO DATABASE
-        console.log("[register] Saving profile to database...");
+        // STEP 2: Simpan profil ke DB (status pending)
+        console.log("[register] Step 2: Saving profile to DB...");
         await db.ref("users/" + uid).set({
           nama: nama,
           email: email,
@@ -984,57 +996,68 @@
           terdaftar: new Date().toISOString(),
           createdBy: "self-register"
         });
-        console.log("[register] ✅ Profile saved to DB");
+        console.log("[register] ✅ DB profile saved");
 
-        await auth.signOut();
+        // STEP 3: Verify Turnstile via Worker
+        // Kalau gagal → rollback (akun dihapus)
+        console.log("[register] Step 3: Verifying Turnstile via Worker...");
+        const workerRes = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            turnstileToken: turnstileToken,
+            nama: nama,
+            email: email,
+            noHp: noHp,
+            uid: uid
+          })
+        });
 
-        // STEP 3: VERIFY TURNSTILE + NOTIF TELEGRAM
-        console.log("[register] Calling Worker for Turnstile + Telegram...");
-        try {
-          const workerRes = await fetch(WORKER_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              turnstileToken: turnstileToken,
-              nama: nama,
-              email: email,
-              noHp: noHp,
-              uid: uid
-            })
-          });
+        const workerData = await workerRes.json().catch(() => ({ ok: false, error: "Invalid response" }));
+        console.log("[register] Worker response:", workerData);
 
-          const workerData = await workerRes.json();
+        if (!workerData.ok) {
+          // Turnstile gagal atau Worker error → ROLLBACK
+          console.warn("[register] ❌ Worker failed → rolling back account");
+          await rollbackAccount(uid);
 
-          if (!workerData.ok) {
-            console.warn("[register] ⚠️ Worker returned:", workerData);
-            if (workerData.error && workerData.error.toLowerCase().includes("turnstile")) {
-              console.error("[register] ❌ Turnstile verification failed");
-              toast("⚠️ Verifikasi anti-bot gagal, tapi akun sudah dibuat. Hubungi CS.", "warn");
-            }
+          const errMsg = workerData.error || "";
+          if (errMsg.toLowerCase().includes("turnstile")) {
+            toast("Verifikasi anti-bot gagal. Silakan coba lagi.", "error");
           } else {
-            console.log("[register] ✅ Worker OK, admin notified via Telegram");
+            toast("Gagal verifikasi: " + (errMsg || "coba lagi"), "error");
           }
-        } catch (workerErr) {
-          console.warn("[register] ⚠️ Worker call failed:", workerErr.message);
-          console.warn("[register] Admin tidak dapat notif Telegram, tapi akun sudah dibuat");
+
+          // Reset Turnstile
+          if (window.turnstile) {
+            try { window.turnstile.reset(); } catch (e) {}
+          }
+          turnstileToken = null;
+          return;
         }
 
-        // STEP 4: SHOW SUCCESS
+        // STEP 4: Sukses — sign out & tampilkan screen
+        console.log("[register] ✅ All steps OK, signing out...");
+        try {
+          await auth.signOut();
+        } catch (e) {
+          console.warn("[register] Sign out failed:", e);
+        }
+
         document.getElementById("formScreen").classList.add("hide");
         document.getElementById("successScreen").classList.add("show");
         toast("✅ Akun berhasil dibuat!");
-
         window.scrollTo({ top: 0, behavior: "smooth" });
-
-        if (window.turnstile) {
-          try { window.turnstile.reset(); } catch (e) {}
-        }
 
       } catch (error) {
         console.error("[register] ❌ Error:", error);
 
-        let msg = "Gagal mendaftar. Coba lagi.";
+        // Rollback kalau account sudah dibuat
+        if (uid) {
+          await rollbackAccount(uid);
+        }
 
+        let msg = "Gagal mendaftar. Coba lagi.";
         if (error.code === "auth/email-already-in-use") {
           msg = "Email ini sudah terdaftar. Silakan login atau gunakan email lain.";
         } else if (error.code === "auth/invalid-email") {
@@ -1053,30 +1076,16 @@
 
         toast(msg, "error");
 
-        if (uid && !error.code) {
-          console.warn("[register] Rolling back Firebase Auth user due to DB error...");
-          try {
-            const currentUser = auth.currentUser;
-            if (currentUser && currentUser.uid === uid) {
-              await currentUser.delete();
-              console.log("[register] ✅ Rolled back auth user");
-            }
-          } catch (rollbackErr) {
-            console.error("[register] ❌ Rollback failed:", rollbackErr);
-            toast("⚠️ Terjadi error. Hubungi CS: " + CS_NUMBER, "error");
-          }
-        }
-
       } finally {
         isSubmitting = false;
         btn.disabled = false;
         btn.innerHTML = '<span style="font-size:1.15rem;">💡</span><span>Daftar Sekarang</span>';
-        turnstileToken = null;
 
         const formScreen = document.getElementById("formScreen");
         if (!formScreen.classList.contains("hide") && window.turnstile) {
           try { window.turnstile.reset(); } catch (e) {}
         }
+        turnstileToken = null;
       }
     }
 
@@ -1123,9 +1132,6 @@
     window.addEventListener("load", () => {
       document.getElementById("regNama").focus();
       console.log("[register] Page loaded. Worker URL:", WORKER_URL);
-      if (WORKER_URL.includes("GANTI-INI")) {
-        console.error("❌⚠️ WORKER_URL BELUM DIUBAH! Ganti dengan URL Cloudflare Worker kamu.");
-      }
     });
   </script>
 
